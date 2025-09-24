@@ -143,7 +143,12 @@ def resume():
 
 @app.route("/contact", methods=["POST"])
 def contact():
-    payload = request.get_json(silent=True) or {}
+    # Aceptar JSON o formulario application/x-www-form-urlencoded
+    payload = request.get_json(silent=True)
+    if not payload:
+        # fallback a form data
+        payload = request.form.to_dict() if request.form else {}
+
     sender_email = payload.get("email")
     sender_name = payload.get("name")
     message = payload.get("message")
