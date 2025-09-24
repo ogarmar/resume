@@ -165,7 +165,6 @@
         const prefs = (raw.projects || [])
           .map(p => ({ name: p.name, s: scoreSkillToProject(skill, p) }))
           .sort((a,b) => b.s - a.s);
-        // Pick the first with positive score, rotated; else rotate projects list
         let chosen = null;
         for (let i = 0; i < prefs.length; i++) {
           const pick = prefs[(rrIdx + i) % prefs.length];
@@ -240,6 +239,37 @@
           window.print();
           hideElements.forEach((el, i) => { el.style.display = previous[i]; });
       });
+  }
+
+  // Contact form
+  const form = $('#contact-form');
+  if (form) {
+    form.addEventListener('submit', async e => {
+      // Permit fallback POST nativo; intentamos JS primero
+      e.preventDefault();
+      const fd = new FormData(form);
+      const payload = Object.fromEntries(fd.entries());
+      const status = $('#contact-status');
+      status.textContent = 'Sending...';
+      try {
+        const res = await fetch('/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+        const data = await res.json();
+        if (data.ok) {
+          if (data.web && data.web.gmail) {
+            window.open(data.web.gmail, '_blank');
+          }
+          status.textContent = 'Message sent!';
+          setTimeout(() => { showSection('overview'); }, 400);
+          form.reset();
+        } else {
+          status.textContent = 'Error: ' + (data.error || 'unknown');
+        }
+      } catch (err) {
+        status.textContent = 'Network error';
+        // fallback nativo si fetch falla
+        try { form.submit(); } catch {}
+      }
+    });
   }
 })();
 
