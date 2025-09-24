@@ -1,0 +1,207 @@
+{% extends 'base.html' %}
+
+{% block title %}Resume{% endblock %}
+
+{% block content %}
+  <div style="display:flex; gap:8px; align-items:center;">
+    <button id="print-pdf" class="btn print-btn">
+      Print as PDF 📄
+    </button>
+  </div>
+  <section class="resume-hero" id="overview-section">
+    <div class="avatar" aria-hidden="true"><img src="{{ url_for('static', filename='avatar.jpg') }}" alt="Profile photo"/></div>
+    <div>
+      <h1 class="name">{{ data.name }}</h1>
+      <p class="tagline">{{ data.tagline }}</p>
+      <div class="contacts">
+        <div class="contacts-row emails">
+          {% for mail in data.contacts.emails %}
+            <button class="chip copy" data-copy="{{ mail }}">✉︎ {{ mail }}</button>
+          {% endfor %}
+        </div>
+        <div class="contacts-row meta">
+          <button class="chip copy" data-copy="{{ data.contacts.phone }}">📞 {{ data.contacts.phone }}</button>
+          <a class="chip" href="{{ data.contacts.github }}" target="_blank" rel="noopener">👨‍💻 GitHub</a>
+          <a class="chip" href="{{ data.contacts.linkedin }}" target="_blank" rel="noopener">🌐 LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tabs removed; navigation handled by sidebar links -->
+
+  <section class="resume-content">
+    <div class="section active" id="overview">
+      <div class="grid two">
+        <div>
+          <h2>Education</h2>
+          <ul class="list">
+            {% for edu in data.education %}
+              <li>
+                <strong>{{ edu.title }}</strong><br>
+                {{ edu.institution }} · <span class="muted">{{ edu.status }}</span>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div>
+          <h2>Languages</h2>
+          <ul class="list">
+            {% for lang in data.languages %}
+              <li>{{ lang.name }} — <span class="muted">{{ lang.level }}</span></li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      <div class="grid two" style="margin-top:16px">
+        <div class="radar-box">
+          <h2>Skill Radar</h2>
+          <canvas id="skill-radar" width="480" height="360" aria-label="Skill radar"></canvas>
+        </div>
+        <div>
+          <h2 class="schedule-title">Schedule a meeting</h2>
+          <form id="contact-form" class="contact-form">
+            <div class="row">
+              <input type="text" name="name" placeholder="Your name">
+              <input type="email" name="email" placeholder="Your email" required>
+            </div>
+            <div class="row">
+              <input type="text" name="when" placeholder="When works for you? (optional)">
+            </div>
+            <textarea name="message" placeholder="Message (or meeting context)" required></textarea>
+            <div class="row end">
+              <button type="submit" class="btn primary">Send message</button>
+            </div>
+            <p class="muted" id="contact-status" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" id="experience">
+      <h2>Experience</h2>
+      {% for exp in data.experience %}
+        <article class="item">
+          <header>
+            <h3>{{ exp.role }} · <span class="muted">{{ exp.company }}</span></h3>
+            <div class="meta">{{ exp.sector }} · {{ exp.start }} — {{ exp.end }}</div>
+          </header>
+          <p>{{ exp.summary }}</p>
+          {% if exp.highlights %}
+            <ul>
+              {% for hl in exp.highlights %}
+                <li>{{ hl }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </article>
+      {% endfor %}
+      <h2>Projects</h2>
+      <div class="filter">
+        <input type="search" id="project-filter" placeholder="Filter projects by tag or title…">
+      </div>
+      <div class="cards">
+        {% for p in data.projects if not p.minor %}
+          <article class="card project" data-tags="{{ ','.join(p.tags) | lower }}" data-title="{{ p.title | lower }}">
+            <div class="card-body">
+              <h3 class="card-title">
+                {% if p.url %}
+                  <a href="{{ p.url }}" target="_blank" rel="noopener">{{ p.title }}</a>
+                {% else %}
+                  {{ p.title }}
+                {% endif %}
+              </h3>
+              <p class="excerpt">{{ p.description }}</p>
+              <div class="tags">
+                {% for t in p.tags %}
+                  <span class="tag">#{{ t }}</span>
+                {% endfor %}
+              </div>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+      <details class="minor-projects" id="minor-projects" open>
+        <summary>Minor projects</summary>
+        <div class="cards" style="margin-top:10px">
+          {% for p in data.projects if p.minor %}
+            <article class="card project" data-tags="{{ ','.join(p.tags) | lower }}" data-title="{{ p.title | lower }}">
+              <div class="card-body">
+                <h3 class="card-title">
+                  {% if p.url %}
+                    <a href="{{ p.url }}" target="_blank" rel="noopener">{{ p.title }}</a>
+                  {% else %}
+                    {{ p.title }}
+                  {% endif %}
+                </h3>
+                <p class="excerpt">{{ p.description }}</p>
+                <div class="tags">
+                  {% for t in p.tags %}
+                    <span class="tag">#{{ t }}</span>
+                  {% endfor %}
+                </div>
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+      </details>
+    </div>
+
+    <div class="section" id="skills">
+      <div class="grid two">
+        <div>
+          <h2>Skills</h2>
+          <ul class="chips">
+            {% for s in data.skills %}
+              <li class="chip">{{ s }}</li>
+            {% endfor %}
+          </ul>
+          <div id="skills-section"></div>
+        </div>
+        <div>
+          <h2>Technologies</h2>
+          <ul class="chips">
+            {% for t in data.technologies %}
+              <li class="chip">{{ t }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tech section removed; merged into Skills -->
+
+    <div class="section" id="graph">
+        <div class="graph-card">
+            <div id="graph-container" class="graph"></div>
+        </div>
+
+        <script id="resume-data" type="application/json">
+            {
+                "projects": [
+                    { "name": "AI Chatbot", "technologies": ["Python", "NLP", "RAG", "LLMs"] },
+                    { "name": "Energy Analysis", "technologies": ["Python", "Data Analysis", "Forecasting"] },
+                    { "name": "Telegram Bot", "technologies": ["Python", "APIs", "Real-time"] },
+                    { "name": "Valencia Agro-study", "technologies": ["Python", "Data Analysis"] }
+                ],
+                "skills": [
+                    "Analysis and problem-solving", "Lifelong learning", "Specific instrumentation", "Effective communication",
+                    "Application and practical thinking", "Planning and time management", "Creativity", "Integration", "Leadership"
+                ],
+                "techs": [
+                    "LaTeX", "Excel", "R", "AI", "LLM editing", "NLP", "RAG", "Word", "Power BI", "Internet", "Video editing", "MATLAB"
+                ]
+            }
+        </script>
+    </div>
+  </section>
+
+  <script>
+window.addEventListener('beforeprint', function() {
+  var minor = document.getElementById('minor-projects');
+  if (minor) minor.setAttribute('open', 'open');
+});
+</script>
+{% endblock %}
+
+
