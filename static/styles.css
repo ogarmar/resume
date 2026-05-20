@@ -1,0 +1,132 @@
+/* ===== Theme Tokens ===== */
+:root { --bg: #0b0d10; --card: #111418; --muted: #9aa3b2; --text: #e6e9ef; --accent: #7c3aed; --accent-2: #22d3ee; --ring: rgba(124,58,237,.35); }
+[data-theme="light"] { --bg: #f7f7fb; --card: #ffffff; --muted: #5b6472; --text: #0f172a; --accent: #6d28d9; --accent-2: #0891b2; --ring: rgba(99,102,241,.25); }
+
+/* Mood themes */
+:root[data-mood="classical"] { --accent: #a78bfa; --accent-2: #60a5fa; --bg: #0d0f13; --card: #12151b; }
+:root[data-mood="lofi"] { --accent: #f97316; --accent-2: #22c55e; --bg: #0c0a09; --card: #141210; }
+:root[data-mood="caribbean"] { --accent: #06b6d4; --accent-2: #84cc16; --bg: #00151a; --card: #062025; }
+:root[data-mood="swag"] { --accent: #ef4444; --accent-2: #a855f7; --bg: #0a0a0a; --card: #121212; }
+
+/* ===== Base ===== */
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body { margin: 0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+.container { width: min(1100px, 92%); margin: 0 auto; }
+
+/* ===== Layout with Sidebar ===== */
+.layout { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
+.sidebar { border-right: 1px solid color-mix(in oklab, var(--muted), transparent 70%); position: sticky; top: 0; height: 100vh; backdrop-filter: blur(6px); }
+.sidebar-inner { padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+.brand { font-family: "Playfair Display", Georgia, serif; font-weight: 700; font-size: 22px; color: var(--text); text-decoration: none; }
+.brand span { color: var(--accent); }
+.sidebar-links { display: grid; gap: 8px; }
+.sidebar a { color: var(--muted); text-decoration: none; padding: 6px 8px; border-radius: 8px; }
+.sidebar a:hover, .sidebar a.active { color: var(--text); background: color-mix(in oklab, var(--accent), transparent 88%); }
+.btn.theme-toggle { background: var(--card); color: var(--text); border: 1px solid color-mix(in oklab, var(--muted), transparent 70%); padding: 6px 10px; border-radius: 10px; cursor: pointer; }
+.btn.theme-toggle:hover { border-color: color-mix(in oklab, var(--accent), transparent 60%); }
+.content { padding: 10px 0 40px; }
+
+/* ===== Hero / Header Card ===== */
+.resume-hero { display: grid; grid-template-columns: 96px 1fr; gap: 16px; align-items: center; padding: 30px 0 10px; }
+.resume-hero .avatar { width: 96px; height: 96px; border-radius: 50%; overflow: hidden; box-shadow: 0 8px 22px -12px rgba(0,0,0,.6); }
+.resume-hero .avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.resume-hero .name { margin: 0 0 4px; font-family: "Playfair Display", Georgia, serif; font-size: clamp(26px, 4vw, 36px); }
+.resume-hero .tagline { margin: 0; color: var(--muted); }
+.contacts { display: grid; gap: 6px; margin-top: 10px; }
+.contacts-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.contacts-row.emails .chip { background: color-mix(in oklab, var(--accent-2), transparent 85%); border-color: color-mix(in oklab, var(--accent-2), transparent 70%); }
+.contacts-row.meta .chip { background: var(--card); }
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 999px; border: 1px solid color-mix(in oklab, var(--muted), transparent 70%); background: var(--card); color: var(--text); font-size: 13px; }
+.chip.copy { cursor: pointer; }
+.chip.copy:active { scale: .98; }
+
+/* ===== Sections ===== */
+.section { display: none; }
+.section.active { display: block; }
+
+/* Asegúrate de que estas clases estén así */
+.resume-content { padding: 16px 0 50px; }
+
+/* Separación entre secciones (pantalla) */
+.section + .section { margin-top: 24px; border-top: 12px solid color-mix(in oklab, var(--bg), transparent 0%); padding-top: 12px; }
+
+/* ===== Cards / Projects ===== */
+.filter { margin: 10px 0 14px; }
+#project-filter { width: 100%; padding: 10px 12px; border-radius: 12px; background: var(--card); color: var(--text); border: 1px solid color-mix(in oklab, var(--muted), transparent 70%); outline-color: var(--ring); }
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 22px; padding: 6px 0 6px; }
+.card { background: var(--card); border: 1px solid color-mix(in oklab, var(--muted), transparent 70%); border-radius: 16px; overflow: hidden; box-shadow: 0 10px 24px -14px rgba(0,0,0,.5); transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+.card:hover { transform: translateY(-4px); box-shadow: 0 16px 34px -16px rgba(0,0,0,.6); border-color: color-mix(in oklab, var(--accent), transparent 65%); }
+.card-body { padding: 14px 16px 18px; }
+.card-title { margin: 6px 0 6px; font-size: 18px; }
+.card-title a { color: var(--text); text-decoration: none; }
+.card-title a:hover { color: var(--accent-2); }
+.excerpt { color: var(--muted); margin: 0 0 10px; }
+.meta { color: var(--muted); font-size: 13px; display: flex; gap: 8px; align-items: center; }
+.tags { display: flex; gap: 8px; flex-wrap: wrap; }
+.tag { background: color-mix(in oklab, var(--accent), transparent 85%); color: var(--text); border: 1px solid color-mix(in oklab, var(--accent), transparent 70%); padding: 2px 8px; border-radius: 999px; font-size: 12px; }
+.minor-projects summary { cursor: pointer; font-weight: bold; font-size: 1.1em; color: var(--accent); padding: 8px 0; outline: none; transition: color 0.2s; }
+.minor-projects[open] summary { color: var(--text); }
+
+/* ===== Skills / Chips ===== */
+.chips { display: flex; gap: 8px; flex-wrap: wrap; padding-left: 0; list-style: none; }
+
+/* ===== Graph Area ===== */
+.graph-card { position: relative; height: 520px; background: #0a0c10; border-radius: 16px; overflow: hidden; margin: 20px 0; border: 1px solid rgba(255, 255, 255, 0.1); }
+#graph-container { position: absolute; inset: 0; width: 100%; height: 100%; }
+#graph-container svg { width: 100%; height: 100%; display: block; }
+.node circle { stroke: rgba(255, 255, 255, 0.2); stroke-width: 2px; }
+.node text { fill: #ffffff; font-size: 12px; pointer-events: none; dominant-baseline: middle; }
+.link { stroke: rgba(255, 255, 255, 0.15); stroke-width: 1px; }
+
+/* ===== Forms ===== */
+.contact-form { display: grid; gap: 10px; }
+.contact-form .row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.contact-form .row.end { display: flex; justify-content: flex-end; gap: 8px; }
+.contact-form input, .contact-form textarea { width: 100%; padding: 10px 12px; border-radius: 12px; background: var(--card); color: var(--text); border: 1px solid color-mix(in oklab, var(--muted), transparent 70%); outline-color: var(--ring); }
+.btn { background: var(--card); color: var(--text); border: 1px solid color-mix(in oklab, var(--muted), transparent 70%); padding: 8px 12px; border-radius: 10px; cursor: pointer; text-decoration: none; }
+.btn.primary { background: var(--accent); color: white; border: 0; }
+
+/* ===== Footer ===== */
+.site-footer { border-top: 1px solid color-mix(in oklab, var(--muted), transparent 70%); padding: 20px 0; color: var(--muted); }
+
+/* ===== Print Button ===== */
+.print-btn { position: fixed; top: 20px; right: 20px; z-index: 1000; background: var(--accent); color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 6px; font-size: 14px; }
+.print-btn:hover { background: color-mix(in oklab, var(--accent), black 10%); }
+
+/* Bigger radar on screen */
+#skill-radar { width: 380px !important; height: 280px !important; max-width: 380px; max-height: 280px; }
+.radar-box { padding: 12px 10px 10px 16px; background: var(--card); border: 1px solid color-mix(in oklab, var(--muted), transparent 70%); border-radius: 12px; }
+
+@media print {
+  @page { margin: 0; size: A4; }
+
+  html, body { margin: 0 !important; padding: 0 !important; width: 100vw; height: 100vh; background: var(--bg) !important; color: var(--text) !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+
+  /* Single column */
+  .layout { display: block !important; }
+  .sidebar { display: none !important; }
+  .content { padding: 0 !important; }
+  .container { width: 100% !important; max-width: none !important; margin: 0 !important; padding: 24px !important; background: var(--bg) !important; }
+
+  /* Break handling */
+  .section { display: block !important; width: 100% !important; max-width: 100% !important; break-inside: avoid-page; page-break-inside: avoid; margin: 0 0 18px 0 !important; background: var(--bg) !important; }
+  .item, .card, .card-body, ul, li, p, h1, h2, h3 { break-inside: avoid-page; page-break-inside: avoid; }
+  .section::after { content: ""; display: block; height: 12px; background: var(--bg); }
+
+  /* Hide non-essential for print */
+  #graph, .print-btn, .filter, #project-filter, .site-footer { display: none !important; }
+  /* Hide schedule a meeting (title and form) on print */
+  h2.schedule-title, h2.schedule-title ~ * { display: none !important; }
+  /* Hide final Minor projects ribbon in base footer area */
+  body > details.minor-projects { display: none !important; }
+
+  /* Bigger radar on print */
+  #skill-radar { width: 220px !important; height: 160px !important; max-width: 220px !important; max-height: 160px !important; }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 960px) { .layout { grid-template-columns: 200px 1fr; } }
+@media (max-width: 720px) { .layout { grid-template-columns: 1fr; } .sidebar { position: static; height: auto; border-right: 0; border-bottom: 1px solid color-mix(in oklab, var(--muted), transparent 70%); } .content { padding: 0 0 30px; } .grid.two { grid-template-columns: 1fr; } .resume-hero { grid-template-columns: 72px 1fr; } .resume-hero .avatar { width: 72px; height: 72px; } }
+
+

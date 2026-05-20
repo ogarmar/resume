@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Resume · Óscar García Martínez{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" media="all">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" sizes="any">
+    <meta name="color-scheme" content="light dark">
+    <meta name="author" content="Óscar García Martínez">
+    <meta name="description" content="Professional Resume">
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0"></script>
+    <script defer src="{{ url_for('static', filename='script.js') }}"></script>
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="sidebar-inner">
+          <a class="brand" href="{{ url_for('index') }}">Óscar   ·   CV</a>
+          <div class="sidebar-links">
+            <a href="#" class="nav-link" data-section="overview">Overview</a>
+            <a href="#" class="nav-link" data-section="experience">Experience</a>
+            <a href="#" class="nav-link" data-section="skills">Skills</a>
+            <a href="#" class="nav-link" data-section="graph">Graph</a>
+          </div>
+          <button class="btn theme-toggle" aria-label="Toggle theme" title="Toggle theme">🌓</button>
+        </div>
+      </aside>
+      <main class="content">
+        <div class="container">
+          {% block content %}{% endblock %}
+        </div>
+      </main>
+    </div>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>One bad moment is not a bad day. One bad day is not a bad week. One bad week is not a bad month. One bad month is not a bad year. One bad year is not a bad life. :)</p>
+      </div>
+    </footer>
+  </body>
+</html>
