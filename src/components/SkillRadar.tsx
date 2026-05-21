@@ -143,36 +143,16 @@ const SkillRadar = ({ skills, width = 500, height = 500 }: SkillRadarProps) => {
   
   // Sample skills data
   const defaultSkills: Skill[] = [
-    { name: 'LLMs', value: 10, category: 'AI Engineering' },
-    { name: 'RAG', value: 9, category: 'AI Engineering' },
-    { name: 'Prompt Eng.', value: 9, category: 'AI Engineering' },
-    { name: 'LangChain', value: 8, category: 'AI Engineering' },
-    { name: 'AutoML', value: 8, category: 'AI Engineering' },
-    { name: 'FAISS', value: 8, category: 'AI Engineering' },
-    { name: 'Pandas', value: 9, category: 'Data Science' },
-    { name: 'Statistical Analysis', value: 9, category: 'Data Science' },
-    { name: 'EDA', value: 8, category: 'Data Science' },
-    { name: 'Scikit-learn', value: 8, category: 'Data Science' },
-    { name: 'SHAP', value: 7, category: 'Data Science' },
-    { name: 'Predictive Modeling', value: 8, category: 'Data Science' },
-    { name: 'FastAPI', value: 9, category: 'Backend' },
-    { name: 'Flask', value: 7, category: 'Backend' },
-    { name: 'REST', value: 8, category: 'Backend' },
-    { name: 'WebSockets', value: 8, category: 'Backend' },
-    { name: 'React', value: 8, category: 'Full-Stack' },
-    { name: 'TypeScript', value: 8, category: 'Full-Stack' },
-    { name: 'PostgreSQL', value: 8, category: 'Backend' },
-    { name: 'SQLite', value: 7, category: 'Data Infra' },
-    { name: 'ETL', value: 7, category: 'Data Infra' },
-    { name: 'Vector DBs', value: 7, category: 'Data Infra' },
-    { name: 'AsyncIO', value: 7, category: 'Data Infra' },
-    { name: 'Git', value: 8, category: 'DevOps' },
-    { name: 'Docker', value: 7, category: 'DevOps' },
-    { name: 'Cloud Deployment', value: 7, category: 'DevOps' },
-    { name: 'Python', value: 10, category: 'Languages' },
-    { name: 'SQL', value: 8, category: 'Languages' },
-    { name: 'R', value: 7, category: 'Languages' },
-    { name: 'JavaScript/TS', value: 8, category: 'Languages' }
+    { name: 'JavaScript', value: 0.9, category: 'technical' },
+    { name: 'React', value: 0.85, category: 'technical' },
+    { name: 'TypeScript', value: 0.8, category: 'technical' },
+    { name: 'Node.js', value: 0.75, category: 'technical' },
+    { name: 'CSS/SCSS', value: 0.8, category: 'technical' },
+    { name: 'Three.js', value: 0.7, category: 'technical' },
+    { name: 'UI/UX', value: 0.75, category: 'soft' },
+    { name: 'Problem Solving', value: 0.9, category: 'soft' },
+    { name: 'Communication', value: 0.85, category: 'soft' },
+    { name: 'Teamwork', value: 0.9, category: 'soft' }
   ];
   
   const SkillRadarWrapper = () => {

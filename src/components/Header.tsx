@@ -3,8 +3,8 @@ import React from 'react';
 const Header: React.FC = () => {
   return (
     <header>
-      <h1>Óscar García Martínez</h1>
-      <p>AI Engineer • Data Scientist • Backend Developer</p>
+      <h1>Your Name</h1>
+      <p>Web Developer</p>
     </header>
   );
 };

@@ -6,10 +6,8 @@ const Education: React.FC = () => {
       <h2>Education</h2>
       <ul>
         <li>
-          <h3>BSc in Data Science</h3>
-          <p>Universitat Politècnica de València (UPV)</p>
-          <p>Focus: AI, Machine Learning, Statistical Modeling, Data Systems</p>
-          <p>Graduation: Jun 2026</p>
+          <h3>Bachelor of Science in Computer Science</h3>
+          <p>University of Technology, Graduated 2016</p>
         </li>
       </ul>
     </section>

@@ -1,22 +1,20 @@
 import React from 'react';
-import { experiences } from '../constants/index';
 
 const Experience: React.FC = () => {
   return (
     <section>
       <h2>Work Experience</h2>
       <ul>
-        {experiences.map((exp, idx) => (
-          <li key={idx} style={{ marginBottom: '2rem' }}>
-            <h3>{exp.title} - {exp.company_name}</h3>
-            <p>{exp.date}</p>
-            <ul>
-              {exp.points.map((point, i) => (
-                <li key={i}>{point}</li>
-              ))}
-            </ul>
-          </li>
-        ))}
+        <li>
+          <h3>Web Developer - XYZ Company</h3>
+          <p>June 2018 - Present</p>
+          <p>Developed and maintained various web applications using React and Node.js.</p>
+        </li>
+        <li>
+          <h3>Junior Developer - ABC Inc.</h3>
+          <p>January 2017 - May 2018</p>
+          <p>Assisted in the development of company websites and internal tools.</p>
+        </li>
       </ul>
     </section>
   );
