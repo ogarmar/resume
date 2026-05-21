@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './ExperienceCard.css';
 
 interface ExperienceItem {
@@ -27,6 +27,24 @@ const Experience: React.FC<ExperienceProps> = ({ experience = [] }) => {
     return null;
   }
 
+  const handleEscape = (e: KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      setSelectedExp(null);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedExp) {
+      document.addEventListener('keydown', handleEscape);
+      return () => document.removeEventListener('keydown', handleEscape);
+    }
+  }, [selectedExp]);
+
+  const closeModal = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    setSelectedExp(null);
+  };
+
   return (
     <section className="experience-section">
       <h2 className="experience-title">EXPERIENCE</h2>
@@ -46,8 +64,8 @@ const Experience: React.FC<ExperienceProps> = ({ experience = [] }) => {
               </div>
               
               <div className="experience-card-meta">
-                <p className="experience-sector">{exp.sector}</p>
-                <p className="experience-period">{exp.start} — {exp.end}</p>
+                <span className="experience-sector">{exp.sector}</span>
+                <span className="experience-period">{exp.start} — {exp.end}</span>
               </div>
               
               <p className="experience-summary">{exp.summary}</p>
@@ -61,16 +79,19 @@ const Experience: React.FC<ExperienceProps> = ({ experience = [] }) => {
       </div>
 
       {/* Modal Popup */}
-      {selectedExp && (
-        <div className="experience-modal-overlay" onClick={() => setSelectedExp(null)}>
-          <div className="experience-modal" onClick={(e) => e.stopPropagation()}>
-            <button
-              className="experience-modal-close"
-              onClick={() => setSelectedExp(null)}
-            >
-              ✕
-            </button>
+      <div 
+        className={`experience-modal-overlay ${selectedExp ? 'active' : ''}`}
+        onClick={() => closeModal()}
+      >
+        <div className="experience-modal" onClick={(e) => e.stopPropagation()}>
+          <button
+            className="experience-modal-close"
+            onClick={closeModal}
+          >
+            ✕
+          </button>
 
+          {selectedExp && (
             <div className="experience-modal-content">
               <div className="experience-modal-header">
                 <h2 className="experience-modal-role">{selectedExp.data.role}</h2>
@@ -79,10 +100,10 @@ const Experience: React.FC<ExperienceProps> = ({ experience = [] }) => {
 
               <div className="experience-modal-meta">
                 <p className="experience-modal-sector">
-                  <strong>Sector:</strong> {selectedExp.data.sector}
+                  {selectedExp.data.sector}
                 </p>
                 <p className="experience-modal-period">
-                  <strong>Period:</strong> {selectedExp.data.start} — {selectedExp.data.end}
+                  {selectedExp.data.start} — {selectedExp.data.end}
                 </p>
               </div>
 
@@ -97,9 +118,9 @@ const Experience: React.FC<ExperienceProps> = ({ experience = [] }) => {
                 ))}
               </ul>
             </div>
-          </div>
+          )}
         </div>
-      )}
+      </div>
     </section>
   );
 };
