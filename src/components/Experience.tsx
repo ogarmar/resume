@@ -1,21 +1,52 @@
 import React from 'react';
+import './ExperienceCard.css';
 
-const Experience: React.FC = () => {
+interface ExperienceItem {
+  company: string;
+  role: string;
+  sector: string;
+  summary: string;
+  start: string;
+  end: string;
+  highlights: string[];
+}
+
+interface ExperienceProps {
+  experience?: ExperienceItem[];
+}
+
+const Experience: React.FC<ExperienceProps> = ({ experience = [] }) => {
   return (
-    <section>
-      <h2>Work Experience</h2>
-      <ul>
-        <li>
-          <h3>Web Developer - XYZ Company</h3>
-          <p>June 2018 - Present</p>
-          <p>Developed and maintained various web applications using React and Node.js.</p>
-        </li>
-        <li>
-          <h3>Junior Developer - ABC Inc.</h3>
-          <p>January 2017 - May 2018</p>
-          <p>Assisted in the development of company websites and internal tools.</p>
-        </li>
-      </ul>
+    <section className="experience-section">
+      <h2 className="experience-title">EXPERIENCE</h2>
+      <div className="experience-container">
+        {experience.map((exp, index) => (
+          <div key={index} className="experience-card">
+            <div className="experience-card-header">
+              <div className="experience-role-company">
+                <h3 className="experience-role">{exp.role}</h3>
+                <p className="experience-company">{exp.company}</p>
+              </div>
+              <div className="experience-meta">
+                <p className="experience-sector">{exp.sector}</p>
+                <p className="experience-period">
+                  {exp.start} — {exp.end}
+                </p>
+              </div>
+            </div>
+            
+            <p className="experience-summary">{exp.summary}</p>
+            
+            <ul className="experience-highlights">
+              {exp.highlights.map((highlight, idx) => (
+                <li key={idx} className="highlight-item">
+                  {highlight}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
     </section>
   );
 };

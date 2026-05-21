@@ -1,82 +1,138 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import "./Works.css";
 
 const ProjectCard = ({
   index,
   name,
   description,
   tags,
-  image,
   source_code_link,
+  isFeatured = false,
 }) => {
   return (
-    <motion.div variants={fadeIn("up", "spring", index * 0.5, 0.75)}>
-      <div className="bg-tertiary p-5 rounded-2xl sm:w-[360px] w-full">
-        <div className="relative w-full h-[230px]">
-          <img
-            src={image}
-            alt={name}
-            className="w-full h-full object-cover rounded-2xl"
-          />
-          <div className="absolute inset-0 flex justify-end m-3 card-img_hover">
-            <div
-              onClick={() => window.open(source_code_link, "_blank")}
-              className="black-gradient w-10 h-10 rounded-full flex justify-center items-center cursor-pointer"
-            >
-              <img
-                src={github}
-                alt="github"
-                className="w-1/2 h-1/2 object-contain"
-              />
-            </div>
-          </div>
-        </div>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3, delay: index * 0.1 }}
+      viewport={{ once: true }}
+      className={`project-card ${isFeatured ? "featured" : "minor"}`}
+    >
+      <div className="project-content">
+        <h3 className="project-title">{name}</h3>
+        <p className="project-description">{description}</p>
 
-        <div className="mt-5">
-          <h3 className="text-white font-bold text-[24px]">{name}</h3>
-          <p className="mt-2 text-secondary text-[14px]">{description}</p>
-        </div>
-
-        <div className="mt-4 flex flex-wrap gap-2">
-          {tags.map((tag) => (
-            <p key={tag.name} className={`text-[14px] ${tag.color}`}>
-              #{tag.name}
-            </p>
+        <div className="project-tags">
+          {tags.map((tag, idx) => (
+            <span key={idx} className="project-tag">
+              #{tag}
+            </span>
           ))}
         </div>
+
+        {source_code_link && (
+          <a
+            href={source_code_link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="project-link"
+          >
+            View Project →
+          </a>
+        )}
       </div>
     </motion.div>
   );
 };
 
 const Works = () => {
+  const [resumeData, setResumeData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchResumeData = async () => {
+      try {
+        const response = await fetch("/api/resume");
+        if (response.ok) {
+          const data = await response.json();
+          setResumeData(data);
+        }
+      } catch (error) {
+        console.error("Error fetching resume data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchResumeData();
+  }, []);
+
+  if (loading) {
+    return <div className="works-section">Loading projects...</div>;
+  }
+
+  const projects = resumeData?.projects || [];
+  const featuredProjects = projects.filter((p) => !p.minor);
+  const minorProjects = projects.filter((p) => p.minor);
+
   return (
-    <>
-      <motion.div variants={textVariant()}>
-        <p className={styles.sectionSubText}>My work</p>
-        <h2 className={styles.sectionHeadText}>Projects.</h2>
+    <section className="works-section">
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        viewport={{ once: true }}
+        className="works-header"
+      >
+        <h2 className="works-title">PROJECTS</h2>
+        <p className="works-description">
+          Following projects showcase my skills and experience through real-world examples of my work.
+          Each project is briefly described with links to code repositories. It reflects my ability to
+          solve complex problems, work with different technologies, and manage projects effectively.
+        </p>
       </motion.div>
 
-      <div className="w-full flex">
-        <motion.p
-          variants={fadeIn("", "", 0.1, 1)}
-          className="mt-3 text-secondary text-[17px] max-w-3xl leading-[30px]"
-        >
-          Following projects showcases my skills and experience through
-          real-world examples of my work. Each project is briefly described with
-          links to code repositories and live demos in it. It reflects my
-          ability to solve complex problems, work with different technologies,
-          and manage projects effectively.
-        </motion.p>
-      </div>
+      {/* Featured Projects */}
+      {featuredProjects.length > 0 && (
+        <div className="projects-group featured-group">
+          <h3 className="group-title">Featured Projects</h3>
+          <div className="projects-grid featured-grid">
+            {featuredProjects.map((project, index) => (
+              <ProjectCard
+                key={`featured-${index}`}
+                index={index}
+                name={project.title}
+                description={project.description}
+                tags={project.tags}
+                source_code_link={project.url}
+                isFeatured={true}
+              />
+            ))}
+          </div>
+        </div>
+      )}
 
-      <div className="mt-20 flex flex-wrap gap-7">
-        {projects.map((project, index) => (
-          <ProjectCard key={`project-${index}`} index={index} {...project} />
-        ))}
-      </div>
-    </>
+      {/* Minor Projects */}
+      {minorProjects.length > 0 && (
+        <div className="projects-group minor-group">
+          <h3 className="group-title">Other Projects</h3>
+          <div className="projects-grid minor-grid">
+            {minorProjects.map((project, index) => (
+              <ProjectCard
+                key={`minor-${index}`}
+                index={index}
+                name={project.title}
+                description={project.description}
+                tags={project.tags}
+                source_code_link={project.url}
+                isFeatured={false}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+    </section>
   );
 };
 
-export default SectionWrapper(Works, "");
+export default Works;

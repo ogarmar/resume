@@ -123,7 +123,7 @@ RESUME = {
             "tags": ["Streamlit", "FLAML", "Scikit-learn", "Pandas", "Plotly"],
             "url": "https://github.com/ogarmar/EMD-VLC-agrostudy",
             "category": "Data Science + AutoML",
-            "minor": False,
+            "minor": True,
         },
         {
             "title": "AI-Typer – AI-Powered Document Resumer and Typing Memory Game",
@@ -131,7 +131,7 @@ RESUME = {
             "tags": ["TypeScript", "Python", "FastAPI", "React", "LLM Integration", "Ollama"],
             "url": "https://github.com/ogarmar/ai-typer",
             "category": "AI + Full-Stack",
-            "minor": False,
+            "minor": True,
         },
         {
             "title": "OCR + AI Document Pipeline",
@@ -139,7 +139,7 @@ RESUME = {
             "tags": ["TesseractOCR", "LangChain", "Gemini API", "AsyncIO"],
             "url": None,
             "category": "AI + Computer Vision",
-            "minor": False,
+            "minor": True,
         },
         {
             "title": "EDM-XAI-3 – Explainable AI Dashboard",
@@ -147,7 +147,7 @@ RESUME = {
             "tags": ["R", "SHAP", "XGBoost", "Plotly"],
             "url": "https://github.com/ogarmar/EDM-XAI-3",
             "category": "Data Science + Interpretable ML",
-            "minor": False,
+            "minor": True,
         },
     ],
     "skills": {
@@ -183,6 +183,11 @@ RESUME = {
 @app.route("/resume")
 def resume():
     return render_template("resume.html", data=RESUME)
+
+
+@app.route("/api/resume")
+def api_resume():
+    return jsonify(RESUME)
 
 
 @app.route("/contact", methods=["POST"])
